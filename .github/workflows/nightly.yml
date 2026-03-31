@@ -18,6 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - os: windows-latest
           - os: ubuntu-latest
             toolchain: gcc-14
           - os: macos-latest
@@ -47,6 +48,7 @@ jobs:
           echo "$(brew --prefix llvm)/bin" >> $GITHUB_PATH
 
       - name: Isolate smoke test
+        shell: bash
         run: cp -r smoke /tmp/smoke-test
 
       - name: Configure (Linux GCC 14)
@@ -57,8 +59,15 @@ jobs:
         if: matrix.toolchain == 'llvm'
         run: cd /tmp/smoke-test && xmake config --toolchain=llvm --sdk="$(brew --prefix llvm)" -y
 
+      - name: Configure (Windows)
+        if: matrix.toolchain == ''
+        shell: bash
+        run: cd /tmp/smoke-test && xmake config -p windows -a x64 -y
+
       - name: Build smoke test
+        shell: bash
         run: cd /tmp/smoke-test && xmake build -y
 
       - name: Run smoke test
+        shell: bash
         run: cd /tmp/smoke-test && xmake run smoke-test
