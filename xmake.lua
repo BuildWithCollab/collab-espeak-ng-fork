@@ -61,6 +61,11 @@ target("espeak-ng")
     add_defines("LIBESPEAK_NG_EXPORT=1", { public = true })
     add_defines('PATH_ESPEAK_DATA="' .. data_path .. '"')
 
+    -- Linux needs _POSIX_C_SOURCE for strdup, fileno, etc.
+    if is_plat("linux") then
+        add_defines("_POSIX_C_SOURCE=200809L")
+    end
+
     -- System libs
     if not is_plat("windows") then
         add_syslinks("m")
