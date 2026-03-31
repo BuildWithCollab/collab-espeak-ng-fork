@@ -66,6 +66,11 @@ target("espeak-ng")
         add_defines("_GNU_SOURCE")
     end
 
+    -- MSVC: suppress deprecated POSIX name warnings (strdup → _strdup etc.)
+    if is_plat("windows") then
+        add_defines("_CRT_NONSTDC_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS")
+    end
+
     -- Suppress warnings in upstream code we don't own
     set_warnings("none")
 
