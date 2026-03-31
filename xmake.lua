@@ -62,8 +62,10 @@ target("espeak-ng")
     add_defines('PATH_ESPEAK_DATA="' .. data_path .. '"')
 
     -- Linux needs _POSIX_C_SOURCE for strdup, fileno, etc.
+    -- Also suppress GCC 14 warnings in upstream code we don't own.
     if is_plat("linux") then
         add_defines("_POSIX_C_SOURCE=200809L")
+        add_cflags("-Wno-format-overflow", "-Wno-format-truncation", { force = true })
     end
 
     -- System libs
