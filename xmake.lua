@@ -61,9 +61,9 @@ target("espeak-ng")
     add_defines("LIBESPEAK_NG_EXPORT=1", { public = true })
     add_defines('PATH_ESPEAK_DATA="' .. data_path .. '"')
 
-    -- Linux needs _POSIX_C_SOURCE for strdup, fileno, etc.
+    -- Linux needs _GNU_SOURCE for strdup, fileno, etc.
     if is_plat("linux") then
-        add_defines("_POSIX_C_SOURCE=200809L")
+        add_defines("_GNU_SOURCE")
     end
 
     -- Suppress warnings in upstream code we don't own
