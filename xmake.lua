@@ -70,6 +70,7 @@ target("espeak-ng")
     -- MSVC: suppress deprecated POSIX name warnings (strdup → _strdup etc.)
     if is_plat("windows") then
         add_defines("_CRT_NONSTDC_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS")
+        add_syslinks("advapi32")
     end
 
     -- Suppress warnings in upstream code we don't own
@@ -95,6 +96,13 @@ target("espeak-ng-bin")
     add_includedirs(".", "src/include", "src/include/compat")
     add_defines("LIBESPEAK_NG_EXPORT=1")
     add_deps("espeak-ng")
+
+    -- Windows: getopt implementation + registry API
+    if is_plat("windows") then
+        add_files("src/compat/getopt.c")
+        add_defines("_CRT_NONSTDC_NO_WARNINGS", "_CRT_SECURE_NO_WARNINGS")
+        set_warnings("none")
+    end
 
     -- After building the binary, compile the phoneme data & dictionaries
     after_build(function (target)
