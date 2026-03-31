@@ -56,10 +56,7 @@ target("espeak-ng")
     add_includedirs("src/ucd-tools/src/include", { public = false })
     add_includedirs("src/speechPlayer/include", { public = false })
 
-    -- Compat headers use #include_next (GCC/Clang only, not MSVC)
-    if not is_plat("windows") then
-        add_includedirs("src/include/compat", { public = false })
-    end
+    add_includedirs("src/include/compat", { public = false })
 
     -- Preprocessor
     add_defines("LIBESPEAK_NG_EXPORT=1", { public = true })
