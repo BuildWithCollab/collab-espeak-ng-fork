@@ -62,11 +62,11 @@ jobs:
       - name: Configure (Windows)
         if: matrix.toolchain == ''
         shell: bash
-        run: cd /tmp/smoke-test && xmake config -p windows -a x64 -y
+        run: cd /tmp/smoke-test && xmake config -p windows -a x64 -y -v
 
       - name: Build smoke test
         shell: bash
-        run: cd /tmp/smoke-test && xmake build -y
+        run: cd /tmp/smoke-test && xmake build -y -v
 
       - name: Run smoke test
         shell: bash
